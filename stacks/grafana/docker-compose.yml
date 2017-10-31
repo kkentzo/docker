@@ -1,0 +1,22 @@
+version: '2'
+
+volumes:
+  grafana-data:
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "5602:3000"
+    networks:
+      - grafana
+      - elastic_elastic
+    volumes:
+      - /data/grafana:/var/lib/grafana
+
+networks:
+  grafana:
+    driver: bridge
+  elastic_elastic:
+    external: true

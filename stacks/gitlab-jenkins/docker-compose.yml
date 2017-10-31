@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    ports:
+      - "12000:443"
+      - "12001:80"
+      - "12002:22"
+    volumes:
+      - "/data/gitlab/config:/etc/gitlab"
+      - "/data/gitlab/logs:/var/log/gitlab"
+      - "/data/gitlab/data:/var/opt/gitlab"
+
+  jenkins-ci:
+    image: jenkins/jenkins:lts
+    depends_on:
+      - gitlab
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - "jenkins_home:/var/jenkins_home"
+
+volumes:
+  jenkins_home:
+    external: true
